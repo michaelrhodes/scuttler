@@ -8,12 +8,13 @@ var localip = require('my-local-ip')()
 var Model = require('scuttlebutt/model')
 var Peers = require('./lib/peers')
 
+var model = new Model
+var peers = new Peers
+
 var Scuttler = function(port) {
   EventEmitter.call(this)
 
-  var model = this.model = new Model
-  var user = this.user = localip
-  var peers = new Peers
+  this.user = localip
 
   peers.on('connect', function(data, user) {
     this.emit('connect', data, user)
@@ -33,23 +34,23 @@ var Scuttler = function(port) {
     .pipe(split)
   
   split.on('data', function(buffer) {
-    var ip = buffer.toString()
-    if (!ip) {
+    var user = buffer.toString()
+    if (!user) {
       return
     }
     // Attempt connection
-    var peer = net.connect({
-      host: ip,
+    var connection = net.connect({
+      host: user,
       port: port
     })
-    peers.push(ip, peer)
-    peer.pipe(model.createStream()).pipe(peer)
+    peers.push(user, connection)
+    connection.pipe(model.createStream()).pipe(connection)
   })
 
   // Make yourself available
-  net.createServer(function(peer) {
-    peers.push(peer.remoteAddress, peer)
-    peer.pipe(model.createStream()).pipe(peer)
+  net.createServer(function(connection) {
+    peers.push(connection.remoteAddress, connection)
+    connection.pipe(model.createStream()).pipe(connection)
   }).listen(port)
 
 }
@@ -57,12 +58,16 @@ var Scuttler = function(port) {
 inherits(Scuttler, EventEmitter)
 
 Scuttler.prototype.write = function(data) {
-  this.model.set(localip, data)
+  model.set(this.user, data)
 }
 
-Scuttler.prototype.read = function(ip) {
-  ip = ip || localip
-  return this.model.store[ip] ? this.model.store[ip][0][1]: null
+Scuttler.prototype.read = function(user) {
+  user = user || this.user
+  return (
+    this.model.store[user] ?
+      this.model.store[user][0][1] :
+      null
+  )
 }
 
 module.exports = Scuttler
