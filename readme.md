@@ -1,5 +1,5 @@
 # scuttler
-scuttler is a module that helps you write distributed network applications that automatically connect their users. It’s designed to be cross-platform, although I’ve only been able to test it on OS X so far.
+scuttler is a module that helps you write distributed network applications that automatically connect their users. It’s designed to be cross-platform, although I’ve only been able to test it on OS X and Linux so far.
 
 ## Install
 ```
