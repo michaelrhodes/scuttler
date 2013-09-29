@@ -1,5 +1,5 @@
 # scuttler
-scuttler is a module that helps you write distributed network applications that automatically connect their users. It’s designed to be cross-platform, although I’ve only been able to test it on OS X and Linux so far.
+scuttler is a module that helps you write distributed, cross-platform network applications that automatically connect their users.
 
 ## Install
 ```
@@ -8,7 +8,7 @@ npm install scuttler
 
 ## API
 ``` js
-// Specify a port for the internal TCP server. 
+// Specify a port for the internal TCP server.
 var scuttler = new Scuttler(port)
 
 // Send a message to all peers.
@@ -54,7 +54,7 @@ scuttler.on('disconnect', function(user) {
 ```
 
 ### No tests?
-I love tests, but I’m not really sure *how* to write them for this module, seeing as it relies on communication with other computers. If you have any ideas, please [get in touch](mailto:spam+scuttler@michaelrhod.es). But for what it’s worth, all the major dependencies have tests.
+I love tests, but I’m not really sure *how* to write them for this module, seeing as it relies on communication with other computers. If you have any ideas, [get in touch](mailto:spam+scuttler@michaelrhod.es), but for what it’s worth, all the major dependencies have tests, and the example application runs without error on OS X, Linux, and Windows.
 
 ### License
 [MIT](http://opensource.org/licenses/MIT)
