@@ -2,8 +2,7 @@ var net = require('net')
 var EventEmitter = require('events').EventEmitter
 var inherits = require('util').inherits
 var arp = require('arp-table')()
-var split = require('split')()
-var parseip = require('parse-ipv4')
+var parse = require('arp-parse')()
 var localip = require('my-local-ip')()
 var Model = require('scuttlebutt/model')
 var Peers = require('./lib/peers')
@@ -30,20 +29,20 @@ var Scuttler = function(port) {
 
   // Find all computers on network
   arp.stdout  
-    .pipe(parseip)
-    .pipe(split)
+    .pipe(parse)
   
-  split.on('data', function(buffer) {
-    var user = buffer.toString()
-    if (!user) {
+  parse.on('data', function(user) {
+    // Filter out ARP entries that
+    // don’t have a MAC address.
+    if (!user.mac) {
       return
     }
     // Attempt connection
     var connection = net.connect({
-      host: user,
+      host: user.ip,
       port: port
     })
-    peers.push(user, connection)
+    peers.push(user.ip, connection)
     connection.pipe(model.createStream()).pipe(connection)
   })
 

@@ -1,17 +1,16 @@
 {
   "name": "scuttler",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Automatic network communication",
   "main": "index.js",
   "directories": {
     "example": "example"
   },
   "dependencies": {
-    "arp-table": "~0.0.0",
-    "parse-ipv4": "~0.0.1",
-    "my-local-ip": "~1.0.0",
     "scuttlebutt": "~5.6.7",
-    "split": "~0.2.10"
+    "arp-table": "~0.0.0",
+    "arp-parse": "0.0.2",
+    "my-local-ip": "~1.0.0"
   },
   "devDependencies": {},
   "scripts": {
