@@ -1,6 +1,6 @@
 {
   "name": "scuttler",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Automatic network communication",
   "main": "index.js",
   "directories": {

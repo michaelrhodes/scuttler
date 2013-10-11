@@ -63,8 +63,8 @@ Scuttler.prototype.write = function(data) {
 Scuttler.prototype.read = function(user) {
   user = user || this.user
   return (
-    this.model.store[user] ?
-      this.model.store[user][0][1] :
+    model.store[user] ?
+      model.store[user][0][1] :
       null
   )
 }
