@@ -10,6 +10,14 @@ var Peers = require('./lib/peers')
 var model = new Model
 var peers = new Peers
 
+var data = function() {
+  var stream = model.createStream()
+  stream.on('error', function(error) {
+    stream.destroy()
+  })
+  return stream
+}
+
 var Scuttler = function(port) {
   EventEmitter.call(this)
 
@@ -43,13 +51,13 @@ var Scuttler = function(port) {
       port: port
     })
     peers.push(user.ip, connection)
-    connection.pipe(model.createStream()).pipe(connection)
+    connection.pipe(data()).pipe(connection)
   })
 
   // Make yourself available
   net.createServer(function(connection) {
     peers.push(connection.remoteAddress, connection)
-    connection.pipe(model.createStream()).pipe(connection)
+    connection.pipe(data()).pipe(connection)
   }).listen(port)
 
 }
