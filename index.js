@@ -19,6 +19,10 @@ var data = function() {
 }
 
 var Scuttler = function(port) {
+  if (!(this instanceof Scuttler)) {
+    return new Scuttler(port)
+  }
+
   EventEmitter.call(this)
 
   this.user = localip
